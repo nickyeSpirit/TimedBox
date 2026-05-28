@@ -1,0 +1,167 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d9c6ae275407f74bb5f911461b932b2, type: 3}
+  m_Name: Tutorial_TimedBoxV3
+  m_EditorClassIdentifier: 
+  pool:
+  - rewards:
+    - weight: 1
+      reward:
+        item:
+          infoId: 12513
+          quantity:
+            currentCryptoKey: 549143
+            currentCryptoOffset: 397244
+            inited: 1
+            fakeValue: 5
+            fakeValueActive: 1
+            hiddenValue1: 945835
+            hiddenValue2: 945878
+          baseQuantity:
+            currentCryptoKey: 726260
+            currentCryptoOffset: 300248
+            inited: 1
+            fakeValue: 0
+            fakeValueActive: 1
+            hiddenValue1: 1015852
+            hiddenValue2: 1015852
+          extent: 
+        petCount: 0
+        pet:
+          level: 1
+          levelEvolution: 1
+          id: 
+          exp: 0
+          petType: 0
+          passiveSkills: []
+          isLocked: 0
+        equipmentCount: 0
+        equipment:
+          infoId: 0
+          isNew: 1
+          id: 
+          level:
+            currentCryptoKey: 0
+            currentCryptoOffset: 0
+            inited: 0
+            fakeValue: 0
+            fakeValueActive: 0
+            hiddenValue1: 0
+            hiddenValue2: 0
+          rarity: 0
+          primaryStat:
+            id: 0
+            baseValue:
+              currentCryptoKey: 0
+              currentCryptoOffset: 0
+              hiddenValue1:
+                b1: 0
+                b2: 0
+                b3: 0
+                b4: 0
+              hiddenValue2:
+                b1: 0
+                b2: 0
+                b3: 0
+                b4: 0
+              hiddenValueOld: 
+              inited: 0
+              fakeValue: 0
+              fakeValueActive: 0
+            isDisable: 0
+          substats: []
+        rewardMount: 0
+        extendData: 
+        extendData2: 
+        minMaxValue:
+          min: 0
+          max: 5
+      growthRate: 0.1
+    percentPriority: 0
+  - rewards:
+    - weight: 3
+      reward:
+        item:
+          infoId: 0
+          quantity:
+            currentCryptoKey: 853678
+            currentCryptoOffset: 649547
+            inited: 1
+            fakeValue: 0
+            fakeValueActive: 1
+            hiddenValue1: 323557
+            hiddenValue2: 323557
+          baseQuantity:
+            currentCryptoKey: 115345
+            currentCryptoOffset: 467461
+            inited: 1
+            fakeValue: 0
+            fakeValueActive: 1
+            hiddenValue1: 450708
+            hiddenValue2: 450708
+          extent: 2
+        petCount: 0
+        pet:
+          level: 1
+          levelEvolution: 1
+          id: 
+          exp: 0
+          petType: 0
+          passiveSkills: []
+          isLocked: 0
+        equipmentCount: 0
+        equipment:
+          infoId: 0
+          isNew: 1
+          id: 
+          level:
+            currentCryptoKey: 165192
+            currentCryptoOffset: 698705
+            inited: 1
+            fakeValue: 0
+            fakeValueActive: 1
+            hiddenValue1: 535577
+            hiddenValue2: 535577
+          rarity: 0
+          primaryStat:
+            id: 0
+            baseValue:
+              currentCryptoKey: 285116
+              currentCryptoOffset: 652704
+              hiddenValue1:
+                b1: 28
+                b2: 172
+                b3: 13
+                b4: 0
+              hiddenValue2:
+                b1: 28
+                b2: 172
+                b3: 13
+                b4: 0
+              hiddenValueOld: 
+              inited: 1
+              fakeValue: 0
+              fakeValueActive: 1
+            isDisable: 0
+          substats: []
+        rewardMount: 0
+        extendData: 
+        extendData2: 
+        minMaxValue:
+          min: 0
+          max: 0
+      growthRate: 0
+    percentPriority: 0
+  poolName:
+  - Item/TimedBox_ShipShard
+  - Item/Gold
+  boxType: 1

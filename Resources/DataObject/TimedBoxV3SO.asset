@@ -1,0 +1,611 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15781e62a9f84d14db47da58c79c611f, type: 3}
+  m_Name: TimedBoxV3SO
+  m_EditorClassIdentifier: 
+  cooldownTimebox: 300
+  customTimeboxWeight:
+  - toStage: 4
+    weightInfo:
+    - weight: 0
+      boxType: 2
+    - weight: 0
+      boxType: 3
+    - weight: 0
+      boxType: 4
+    - weight: 0
+      boxType: 5
+  - toStage: 299
+    weightInfo:
+    - weight: 80
+      boxType: 2
+    - weight: 40
+      boxType: 3
+    - weight: 6.5
+      boxType: 4
+    - weight: 1.3
+      boxType: 5
+  customTimeboxWeightForLeagueMode:
+    toStage: 0
+    weightInfo:
+    - weight: 60
+      boxType: 2
+    - weight: 24
+      boxType: 3
+    - weight: 12
+      boxType: 4
+    - weight: 4
+      boxType: 5
+  timedBoxV3Progression:
+    keyData: 0100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f0000001000000011000000120000001300000014000000
+    valueData:
+    - timedBoxV3ProgressionDetail:
+        keyData: 02000000030000000400000005000000
+        valueData:
+        - rewards:
+          - itemID: 12513
+            amount: 5
+          - itemID: 12512
+            amount: 3
+          - itemID: 0
+            amount: 1000
+        - rewards:
+          - itemID: 12512
+            amount: 6
+          - itemID: 0
+            amount: 5000
+        - rewards:
+          - itemID: 12512
+            amount: 10
+          - itemID: 12511
+            amount: 15
+          - itemID: 0
+            amount: 24000
+        - rewards:
+          - itemID: 12511
+            amount: 25
+          - itemID: 0
+            amount: 48000
+    - timedBoxV3ProgressionDetail:
+        keyData: 02000000030000000400000005000000
+        valueData:
+        - rewards:
+          - itemID: 12513
+            amount: 6
+          - itemID: 12512
+            amount: 4
+          - itemID: 0
+            amount: 0
+        - rewards:
+          - itemID: 12512
+            amount: 7
+          - itemID: 0
+            amount: 6000
+        - rewards:
+          - itemID: 12512
+            amount: 11
+          - itemID: 12511
+            amount: 16
+          - itemID: 0
+            amount: 27000
+        - rewards:
+          - itemID: 12511
+            amount: 26
+          - itemID: 0
+            amount: 52000
+    - timedBoxV3ProgressionDetail:
+        keyData: 02000000030000000400000005000000
+        valueData:
+        - rewards:
+          - itemID: 12513
+            amount: 7
+          - itemID: 12512
+            amount: 5
+          - itemID: 0
+            amount: 2000
+        - rewards:
+          - itemID: 12512
+            amount: 8
+          - itemID: 0
+            amount: 7000
+        - rewards:
+          - itemID: 12512
+            amount: 12
+          - itemID: 12511
+            amount: 17
+          - itemID: 0
+            amount: 30000
+        - rewards:
+          - itemID: 12511
+            amount: 27
+          - itemID: 0
+            amount: 56000
+    - timedBoxV3ProgressionDetail:
+        keyData: 02000000030000000400000005000000
+        valueData:
+        - rewards:
+          - itemID: 12513
+            amount: 8
+          - itemID: 12512
+            amount: 6
+          - itemID: 0
+            amount: 0
+        - rewards:
+          - itemID: 12512
+            amount: 9
+          - itemID: 0
+            amount: 8000
+        - rewards:
+          - itemID: 12512
+            amount: 13
+          - itemID: 12511
+            amount: 18
+          - itemID: 0
+            amount: 33000
+        - rewards:
+          - itemID: 12511
+            amount: 28
+          - itemID: 0
+            amount: 60000
+    - timedBoxV3ProgressionDetail:
+        keyData: 02000000030000000400000005000000
+        valueData:
+        - rewards:
+          - itemID: 12513
+            amount: 9
+          - itemID: 12512
+            amount: 7
+          - itemID: 0
+            amount: 3000
+        - rewards:
+          - itemID: 12512
+            amount: 10
+          - itemID: 0
+            amount: 9000
+        - rewards:
+          - itemID: 12512
+            amount: 14
+          - itemID: 12511
+            amount: 19
+          - itemID: 0
+            amount: 36000
+        - rewards:
+          - itemID: 12511
+            amount: 29
+          - itemID: 0
+            amount: 64000
+    - timedBoxV3ProgressionDetail:
+        keyData: 02000000030000000400000005000000
+        valueData:
+        - rewards:
+          - itemID: 12513
+            amount: 10
+          - itemID: 12512
+            amount: 8
+          - itemID: 0
+            amount: 0
+        - rewards:
+          - itemID: 12512
+            amount: 11
+          - itemID: 0
+            amount: 10000
+        - rewards:
+          - itemID: 12512
+            amount: 15
+          - itemID: 12511
+            amount: 20
+          - itemID: 0
+            amount: 39000
+        - rewards:
+          - itemID: 12511
+            amount: 30
+          - itemID: 0
+            amount: 68000
+    - timedBoxV3ProgressionDetail:
+        keyData: 02000000030000000400000005000000
+        valueData:
+        - rewards:
+          - itemID: 12513
+            amount: 11
+          - itemID: 12512
+            amount: 9
+          - itemID: 0
+            amount: 4000
+        - rewards:
+          - itemID: 12512
+            amount: 12
+          - itemID: 0
+            amount: 11000
+        - rewards:
+          - itemID: 12512
+            amount: 16
+          - itemID: 12511
+            amount: 21
+          - itemID: 0
+            amount: 42000
+        - rewards:
+          - itemID: 12511
+            amount: 31
+          - itemID: 0
+            amount: 72000
+    - timedBoxV3ProgressionDetail:
+        keyData: 02000000030000000400000005000000
+        valueData:
+        - rewards:
+          - itemID: 12513
+            amount: 12
+          - itemID: 12512
+            amount: 10
+          - itemID: 0
+            amount: 0
+        - rewards:
+          - itemID: 12512
+            amount: 13
+          - itemID: 0
+            amount: 12000
+        - rewards:
+          - itemID: 12512
+            amount: 17
+          - itemID: 12511
+            amount: 22
+          - itemID: 0
+            amount: 45000
+        - rewards:
+          - itemID: 12511
+            amount: 32
+          - itemID: 0
+            amount: 76000
+    - timedBoxV3ProgressionDetail:
+        keyData: 02000000030000000400000005000000
+        valueData:
+        - rewards:
+          - itemID: 12513
+            amount: 13
+          - itemID: 12512
+            amount: 11
+          - itemID: 0
+            amount: 5000
+        - rewards:
+          - itemID: 12512
+            amount: 14
+          - itemID: 0
+            amount: 13000
+        - rewards:
+          - itemID: 12512
+            amount: 18
+          - itemID: 12511
+            amount: 23
+          - itemID: 0
+            amount: 48000
+        - rewards:
+          - itemID: 12511
+            amount: 33
+          - itemID: 0
+            amount: 80000
+    - timedBoxV3ProgressionDetail:
+        keyData: 02000000030000000400000005000000
+        valueData:
+        - rewards:
+          - itemID: 12513
+            amount: 14
+          - itemID: 12512
+            amount: 12
+          - itemID: 0
+            amount: 0
+        - rewards:
+          - itemID: 12512
+            amount: 15
+          - itemID: 0
+            amount: 14000
+        - rewards:
+          - itemID: 12512
+            amount: 19
+          - itemID: 12511
+            amount: 24
+          - itemID: 0
+            amount: 51000
+        - rewards:
+          - itemID: 12511
+            amount: 34
+          - itemID: 0
+            amount: 84000
+    - timedBoxV3ProgressionDetail:
+        keyData: 02000000030000000400000005000000
+        valueData:
+        - rewards:
+          - itemID: 12513
+            amount: 15
+          - itemID: 12512
+            amount: 13
+          - itemID: 0
+            amount: 6000
+        - rewards:
+          - itemID: 12512
+            amount: 16
+          - itemID: 0
+            amount: 15000
+        - rewards:
+          - itemID: 12512
+            amount: 20
+          - itemID: 12511
+            amount: 25
+          - itemID: 0
+            amount: 54000
+        - rewards:
+          - itemID: 12511
+            amount: 35
+          - itemID: 0
+            amount: 88000
+    - timedBoxV3ProgressionDetail:
+        keyData: 02000000030000000400000005000000
+        valueData:
+        - rewards:
+          - itemID: 12513
+            amount: 16
+          - itemID: 12512
+            amount: 14
+          - itemID: 0
+            amount: 0
+        - rewards:
+          - itemID: 12512
+            amount: 17
+          - itemID: 0
+            amount: 16000
+        - rewards:
+          - itemID: 12512
+            amount: 21
+          - itemID: 12511
+            amount: 26
+          - itemID: 0
+            amount: 57000
+        - rewards:
+          - itemID: 12511
+            amount: 36
+          - itemID: 0
+            amount: 92000
+    - timedBoxV3ProgressionDetail:
+        keyData: 02000000030000000400000005000000
+        valueData:
+        - rewards:
+          - itemID: 12513
+            amount: 17
+          - itemID: 12512
+            amount: 15
+          - itemID: 0
+            amount: 7000
+        - rewards:
+          - itemID: 12512
+            amount: 18
+          - itemID: 0
+            amount: 17000
+        - rewards:
+          - itemID: 12512
+            amount: 22
+          - itemID: 12511
+            amount: 27
+          - itemID: 0
+            amount: 60000
+        - rewards:
+          - itemID: 12511
+            amount: 37
+          - itemID: 0
+            amount: 96000
+    - timedBoxV3ProgressionDetail:
+        keyData: 02000000030000000400000005000000
+        valueData:
+        - rewards:
+          - itemID: 12513
+            amount: 18
+          - itemID: 12512
+            amount: 16
+          - itemID: 0
+            amount: 0
+        - rewards:
+          - itemID: 12512
+            amount: 19
+          - itemID: 0
+            amount: 18000
+        - rewards:
+          - itemID: 12512
+            amount: 23
+          - itemID: 12511
+            amount: 28
+          - itemID: 0
+            amount: 63000
+        - rewards:
+          - itemID: 12511
+            amount: 38
+          - itemID: 0
+            amount: 100000
+    - timedBoxV3ProgressionDetail:
+        keyData: 02000000030000000400000005000000
+        valueData:
+        - rewards:
+          - itemID: 12513
+            amount: 19
+          - itemID: 12512
+            amount: 17
+          - itemID: 0
+            amount: 8000
+        - rewards:
+          - itemID: 12512
+            amount: 20
+          - itemID: 0
+            amount: 19000
+        - rewards:
+          - itemID: 12512
+            amount: 24
+          - itemID: 12511
+            amount: 29
+          - itemID: 0
+            amount: 66000
+        - rewards:
+          - itemID: 12511
+            amount: 39
+          - itemID: 0
+            amount: 104000
+    - timedBoxV3ProgressionDetail:
+        keyData: 02000000030000000400000005000000
+        valueData:
+        - rewards:
+          - itemID: 12513
+            amount: 20
+          - itemID: 12512
+            amount: 18
+          - itemID: 0
+            amount: 0
+        - rewards:
+          - itemID: 12512
+            amount: 21
+          - itemID: 0
+            amount: 20000
+        - rewards:
+          - itemID: 12512
+            amount: 25
+          - itemID: 12511
+            amount: 30
+          - itemID: 0
+            amount: 69000
+        - rewards:
+          - itemID: 12511
+            amount: 40
+          - itemID: 0
+            amount: 108000
+    - timedBoxV3ProgressionDetail:
+        keyData: 02000000030000000400000005000000
+        valueData:
+        - rewards:
+          - itemID: 12513
+            amount: 21
+          - itemID: 12512
+            amount: 19
+          - itemID: 0
+            amount: 9000
+        - rewards:
+          - itemID: 12512
+            amount: 22
+          - itemID: 0
+            amount: 21000
+        - rewards:
+          - itemID: 12512
+            amount: 26
+          - itemID: 12511
+            amount: 31
+          - itemID: 0
+            amount: 72000
+        - rewards:
+          - itemID: 12511
+            amount: 41
+          - itemID: 0
+            amount: 112000
+    - timedBoxV3ProgressionDetail:
+        keyData: 02000000030000000400000005000000
+        valueData:
+        - rewards:
+          - itemID: 12513
+            amount: 22
+          - itemID: 12512
+            amount: 20
+          - itemID: 0
+            amount: 0
+        - rewards:
+          - itemID: 12512
+            amount: 23
+          - itemID: 0
+            amount: 22000
+        - rewards:
+          - itemID: 12512
+            amount: 27
+          - itemID: 12511
+            amount: 32
+          - itemID: 0
+            amount: 75000
+        - rewards:
+          - itemID: 12511
+            amount: 42
+          - itemID: 0
+            amount: 116000
+    - timedBoxV3ProgressionDetail:
+        keyData: 02000000030000000400000005000000
+        valueData:
+        - rewards:
+          - itemID: 12513
+            amount: 23
+          - itemID: 12512
+            amount: 21
+          - itemID: 0
+            amount: 10000
+        - rewards:
+          - itemID: 12512
+            amount: 24
+          - itemID: 0
+            amount: 23000
+        - rewards:
+          - itemID: 12512
+            amount: 28
+          - itemID: 12511
+            amount: 33
+          - itemID: 0
+            amount: 78000
+        - rewards:
+          - itemID: 12511
+            amount: 43
+          - itemID: 0
+            amount: 120000
+    - timedBoxV3ProgressionDetail:
+        keyData: 02000000030000000400000005000000
+        valueData:
+        - rewards:
+          - itemID: 12513
+            amount: 25
+          - itemID: 12512
+            amount: 22
+          - itemID: 0
+            amount: 0
+        - rewards:
+          - itemID: 12512
+            amount: 25
+          - itemID: 0
+            amount: 24000
+        - rewards:
+          - itemID: 12512
+            amount: 30
+          - itemID: 12511
+            amount: 35
+          - itemID: 0
+            amount: 81000
+        - rewards:
+          - itemID: 12511
+            amount: 50
+          - itemID: 0
+            amount: 124000
+  timedBoxV3Reward:
+    keyData: 0200000003000000040000000500000001000000
+    valueData:
+    - {fileID: 11400000, guid: 308ed855204cb9547b1455af7d694258, type: 2}
+    - {fileID: 11400000, guid: 8363d9ec394465a41b6edc9a400cf83f, type: 2}
+    - {fileID: 11400000, guid: b35bfa966f7897a47a346dce330b1c92, type: 2}
+    - {fileID: 11400000, guid: 6c922cf9cd467624ebd6cf627c9132f3, type: 2}
+    - {fileID: 11400000, guid: 933765b5c5851af47b49f0672f223d66, type: 2}
+  monsterTimedBoxWeightWeight:
+    keyData: 000000000100000002000000
+    valueData:
+    - 33
+    - 33
+    - 34
+  waveTimedBoxWeightByStage:
+  - toStage: 4
+    minPercent: 10
+    maxPercent: 130
+  - toStage: 8
+    minPercent: 10
+    maxPercent: 100

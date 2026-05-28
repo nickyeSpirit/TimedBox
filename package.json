@@ -1,0 +1,8 @@
+{
+  "name": "com.spiritbomb.timedboxv3",
+  "version": "1.0.0",
+  "displayName": "Timed Box V3 Module",
+  "description": "Core logic system for Timed Box rewards with generic dependencies.",
+  "unity": "2021.3",
+  "dependencies": {}
+}

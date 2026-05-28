@@ -1,0 +1,605 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d9c6ae275407f74bb5f911461b932b2, type: 3}
+  m_Name: Rare_TimedBoxV3
+  m_EditorClassIdentifier: 
+  pool:
+  - rewards:
+    - weight: 1
+      reward:
+        item:
+          infoId: 12512
+          quantity:
+            currentCryptoKey: 227894
+            currentCryptoOffset: 437073
+            inited: 1
+            fakeValue: 7
+            fakeValueActive: 1
+            hiddenValue1: 381280
+            hiddenValue2: 381285
+          baseQuantity:
+            currentCryptoKey: 758670
+            currentCryptoOffset: 841069
+            inited: 1
+            fakeValue: 0
+            fakeValueActive: 1
+            hiddenValue1: 476899
+            hiddenValue2: 476899
+          extent: 
+        petCount: 0
+        pet:
+          level: 1
+          levelEvolution: 1
+          id: 
+          exp: 0
+          petType: 0
+          passiveSkills: []
+          isLocked: 0
+        equipmentCount: 0
+        equipment:
+          infoId: 0
+          isNew: 1
+          id: 
+          level:
+            currentCryptoKey: 0
+            currentCryptoOffset: 0
+            inited: 0
+            fakeValue: 0
+            fakeValueActive: 0
+            hiddenValue1: 0
+            hiddenValue2: 0
+          rarity: 0
+          primaryStat:
+            id: 0
+            baseValue:
+              currentCryptoKey: 0
+              currentCryptoOffset: 0
+              hiddenValue1:
+                b1: 0
+                b2: 0
+                b3: 0
+                b4: 0
+              hiddenValue2:
+                b1: 0
+                b2: 0
+                b3: 0
+                b4: 0
+              hiddenValueOld: 
+              inited: 0
+              fakeValue: 0
+              fakeValueActive: 0
+            isDisable: 0
+          substats: []
+        rewardMount: 0
+        extendData: 
+        extendData2: 
+        minMaxValue:
+          min: 0
+          max: 11
+      growthRate: 0.1
+    percentPriority: 0
+  - rewards:
+    - weight: 10
+      reward:
+        item:
+          infoId: 1056
+          quantity:
+            currentCryptoKey: 484494
+            currentCryptoOffset: 908815
+            inited: 1
+            fakeValue: 1
+            fakeValueActive: 1
+            hiddenValue1: 703105
+            hiddenValue2: 703134
+          baseQuantity:
+            currentCryptoKey: 951062
+            currentCryptoOffset: 876815
+            inited: 1
+            fakeValue: 0
+            fakeValueActive: 1
+            hiddenValue1: 254489
+            hiddenValue2: 254489
+          extent: 
+        petCount: 0
+        pet:
+          level: 1
+          levelEvolution: 1
+          id: 
+          exp: 0
+          petType: 0
+          passiveSkills: []
+          isLocked: 0
+        equipmentCount: 0
+        equipment:
+          infoId: 0
+          isNew: 1
+          id: 
+          level:
+            currentCryptoKey: 0
+            currentCryptoOffset: 0
+            inited: 0
+            fakeValue: 0
+            fakeValueActive: 0
+            hiddenValue1: 0
+            hiddenValue2: 0
+          rarity: 0
+          primaryStat:
+            id: 0
+            baseValue:
+              currentCryptoKey: 0
+              currentCryptoOffset: 0
+              hiddenValue1:
+                b1: 0
+                b2: 0
+                b3: 0
+                b4: 0
+              hiddenValue2:
+                b1: 0
+                b2: 0
+                b3: 0
+                b4: 0
+              hiddenValueOld: 
+              inited: 0
+              fakeValue: 0
+              fakeValueActive: 0
+            isDisable: 0
+          substats: []
+        rewardMount: 0
+        extendData: 
+        extendData2: 
+        minMaxValue:
+          min: 0
+          max: 1
+      growthRate: 0
+    - weight: 7
+      reward:
+        item:
+          infoId: 1057
+          quantity:
+            currentCryptoKey: 484494
+            currentCryptoOffset: 908815
+            inited: 1
+            fakeValue: 1
+            fakeValueActive: 1
+            hiddenValue1: 703105
+            hiddenValue2: 703134
+          baseQuantity:
+            currentCryptoKey: 951062
+            currentCryptoOffset: 876815
+            inited: 1
+            fakeValue: 0
+            fakeValueActive: 1
+            hiddenValue1: 254489
+            hiddenValue2: 254489
+          extent: 
+        petCount: 0
+        pet:
+          level: 1
+          levelEvolution: 1
+          id: 
+          exp: 0
+          petType: 0
+          passiveSkills: []
+          isLocked: 0
+        equipmentCount: 0
+        equipment:
+          infoId: 0
+          isNew: 1
+          id: 
+          level:
+            currentCryptoKey: 0
+            currentCryptoOffset: 0
+            inited: 0
+            fakeValue: 0
+            fakeValueActive: 0
+            hiddenValue1: 0
+            hiddenValue2: 0
+          rarity: 0
+          primaryStat:
+            id: 0
+            baseValue:
+              currentCryptoKey: 0
+              currentCryptoOffset: 0
+              hiddenValue1:
+                b1: 0
+                b2: 0
+                b3: 0
+                b4: 0
+              hiddenValue2:
+                b1: 0
+                b2: 0
+                b3: 0
+                b4: 0
+              hiddenValueOld: 
+              inited: 0
+              fakeValue: 0
+              fakeValueActive: 0
+            isDisable: 0
+          substats: []
+        rewardMount: 0
+        extendData: 
+        extendData2: 
+        minMaxValue:
+          min: 0
+          max: 1
+      growthRate: 0
+    - weight: 3
+      reward:
+        item:
+          infoId: 1058
+          quantity:
+            currentCryptoKey: 484494
+            currentCryptoOffset: 908815
+            inited: 1
+            fakeValue: 1
+            fakeValueActive: 1
+            hiddenValue1: 703105
+            hiddenValue2: 703134
+          baseQuantity:
+            currentCryptoKey: 951062
+            currentCryptoOffset: 876815
+            inited: 1
+            fakeValue: 0
+            fakeValueActive: 1
+            hiddenValue1: 254489
+            hiddenValue2: 254489
+          extent: 
+        petCount: 0
+        pet:
+          level: 1
+          levelEvolution: 1
+          id: 
+          exp: 0
+          petType: 0
+          passiveSkills: []
+          isLocked: 0
+        equipmentCount: 0
+        equipment:
+          infoId: 0
+          isNew: 1
+          id: 
+          level:
+            currentCryptoKey: 0
+            currentCryptoOffset: 0
+            inited: 0
+            fakeValue: 0
+            fakeValueActive: 0
+            hiddenValue1: 0
+            hiddenValue2: 0
+          rarity: 0
+          primaryStat:
+            id: 0
+            baseValue:
+              currentCryptoKey: 0
+              currentCryptoOffset: 0
+              hiddenValue1:
+                b1: 0
+                b2: 0
+                b3: 0
+                b4: 0
+              hiddenValue2:
+                b1: 0
+                b2: 0
+                b3: 0
+                b4: 0
+              hiddenValueOld: 
+              inited: 0
+              fakeValue: 0
+              fakeValueActive: 0
+            isDisable: 0
+          substats: []
+        rewardMount: 0
+        extendData: 
+        extendData2: 
+        minMaxValue:
+          min: 0
+          max: 1
+      growthRate: 0
+    percentPriority: 50
+  - rewards:
+    - weight: 10
+      reward:
+        item:
+          infoId: 1061
+          quantity:
+            currentCryptoKey: 315148
+            currentCryptoOffset: 845123
+            inited: 1
+            fakeValue: 1
+            fakeValueActive: 1
+            hiddenValue1: 535119
+            hiddenValue2: 535112
+          baseQuantity:
+            currentCryptoKey: 410304
+            currentCryptoOffset: 263498
+            inited: 1
+            fakeValue: 0
+            fakeValueActive: 1
+            hiddenValue1: 149386
+            hiddenValue2: 149386
+          extent: 
+        petCount: 0
+        pet:
+          level: 1
+          levelEvolution: 1
+          id: 
+          exp: 0
+          petType: 0
+          passiveSkills: []
+          isLocked: 0
+        equipmentCount: 0
+        equipment:
+          infoId: 0
+          isNew: 1
+          id: 
+          level:
+            currentCryptoKey: 0
+            currentCryptoOffset: 0
+            inited: 0
+            fakeValue: 0
+            fakeValueActive: 0
+            hiddenValue1: 0
+            hiddenValue2: 0
+          rarity: 0
+          primaryStat:
+            id: 0
+            baseValue:
+              currentCryptoKey: 0
+              currentCryptoOffset: 0
+              hiddenValue1:
+                b1: 0
+                b2: 0
+                b3: 0
+                b4: 0
+              hiddenValue2:
+                b1: 0
+                b2: 0
+                b3: 0
+                b4: 0
+              hiddenValueOld: 
+              inited: 0
+              fakeValue: 0
+              fakeValueActive: 0
+            isDisable: 0
+          substats: []
+        rewardMount: 0
+        extendData: 
+        extendData2: 
+        minMaxValue:
+          min: 0
+          max: 1
+      growthRate: 0
+    - weight: 7
+      reward:
+        item:
+          infoId: 1062
+          quantity:
+            currentCryptoKey: 315148
+            currentCryptoOffset: 845123
+            inited: 1
+            fakeValue: 1
+            fakeValueActive: 1
+            hiddenValue1: 535119
+            hiddenValue2: 535112
+          baseQuantity:
+            currentCryptoKey: 410304
+            currentCryptoOffset: 263498
+            inited: 1
+            fakeValue: 0
+            fakeValueActive: 1
+            hiddenValue1: 149386
+            hiddenValue2: 149386
+          extent: 
+        petCount: 0
+        pet:
+          level: 1
+          levelEvolution: 1
+          id: 
+          exp: 0
+          petType: 0
+          passiveSkills: []
+          isLocked: 0
+        equipmentCount: 0
+        equipment:
+          infoId: 0
+          isNew: 1
+          id: 
+          level:
+            currentCryptoKey: 0
+            currentCryptoOffset: 0
+            inited: 0
+            fakeValue: 0
+            fakeValueActive: 0
+            hiddenValue1: 0
+            hiddenValue2: 0
+          rarity: 0
+          primaryStat:
+            id: 0
+            baseValue:
+              currentCryptoKey: 0
+              currentCryptoOffset: 0
+              hiddenValue1:
+                b1: 0
+                b2: 0
+                b3: 0
+                b4: 0
+              hiddenValue2:
+                b1: 0
+                b2: 0
+                b3: 0
+                b4: 0
+              hiddenValueOld: 
+              inited: 0
+              fakeValue: 0
+              fakeValueActive: 0
+            isDisable: 0
+          substats: []
+        rewardMount: 0
+        extendData: 
+        extendData2: 
+        minMaxValue:
+          min: 0
+          max: 1
+      growthRate: 0
+    - weight: 3
+      reward:
+        item:
+          infoId: 1063
+          quantity:
+            currentCryptoKey: 315148
+            currentCryptoOffset: 845123
+            inited: 1
+            fakeValue: 1
+            fakeValueActive: 1
+            hiddenValue1: 535119
+            hiddenValue2: 535112
+          baseQuantity:
+            currentCryptoKey: 410304
+            currentCryptoOffset: 263498
+            inited: 1
+            fakeValue: 0
+            fakeValueActive: 1
+            hiddenValue1: 149386
+            hiddenValue2: 149386
+          extent: 
+        petCount: 0
+        pet:
+          level: 1
+          levelEvolution: 1
+          id: 
+          exp: 0
+          petType: 0
+          passiveSkills: []
+          isLocked: 0
+        equipmentCount: 0
+        equipment:
+          infoId: 0
+          isNew: 1
+          id: 
+          level:
+            currentCryptoKey: 0
+            currentCryptoOffset: 0
+            inited: 0
+            fakeValue: 0
+            fakeValueActive: 0
+            hiddenValue1: 0
+            hiddenValue2: 0
+          rarity: 0
+          primaryStat:
+            id: 0
+            baseValue:
+              currentCryptoKey: 0
+              currentCryptoOffset: 0
+              hiddenValue1:
+                b1: 0
+                b2: 0
+                b3: 0
+                b4: 0
+              hiddenValue2:
+                b1: 0
+                b2: 0
+                b3: 0
+                b4: 0
+              hiddenValueOld: 
+              inited: 0
+              fakeValue: 0
+              fakeValueActive: 0
+            isDisable: 0
+          substats: []
+        rewardMount: 0
+        extendData: 
+        extendData2: 
+        minMaxValue:
+          min: 0
+          max: 1
+      growthRate: 0
+    percentPriority: 50
+  - rewards:
+    - weight: 1
+      reward:
+        item:
+          infoId: 0
+          quantity:
+            currentCryptoKey: 526397
+            currentCryptoOffset: 977928
+            inited: 1
+            fakeValue: 0
+            fakeValueActive: 1
+            hiddenValue1: 451637
+            hiddenValue2: 451637
+          baseQuantity:
+            currentCryptoKey: 624422
+            currentCryptoOffset: 665663
+            inited: 1
+            fakeValue: 0
+            fakeValueActive: 1
+            hiddenValue1: 241433
+            hiddenValue2: 241433
+          extent: 2.5
+        petCount: 0
+        pet:
+          level: 1
+          levelEvolution: 1
+          id: 
+          exp: 0
+          petType: 0
+          passiveSkills: []
+          isLocked: 0
+        equipmentCount: 0
+        equipment:
+          infoId: 0
+          isNew: 1
+          id: 
+          level:
+            currentCryptoKey: 847879
+            currentCryptoOffset: 611875
+            inited: 1
+            fakeValue: 0
+            fakeValueActive: 1
+            hiddenValue1: 370212
+            hiddenValue2: 370212
+          rarity: 0
+          primaryStat:
+            id: 0
+            baseValue:
+              currentCryptoKey: 0
+              currentCryptoOffset: 0
+              hiddenValue1:
+                b1: 0
+                b2: 0
+                b3: 0
+                b4: 0
+              hiddenValue2:
+                b1: 0
+                b2: 0
+                b3: 0
+                b4: 0
+              hiddenValueOld: 
+              inited: 0
+              fakeValue: 0
+              fakeValueActive: 0
+            isDisable: 0
+          substats: []
+        rewardMount: 0
+        extendData: 
+        extendData2: 
+        minMaxValue:
+          min: 0
+          max: 0
+      growthRate: 0
+    percentPriority: 0
+  poolName:
+  - Item/TimedBox_ShipShard
+  - Item/RewardPopUp_Pettomon
+  - Item/TimedBox_equipment
+  - Item/Gold
+  boxType: 3
