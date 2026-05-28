@@ -1,6 +1,4 @@
-using Architecture.EventBus;
-using CodeStage.AntiCheat.ObscuredTypes;
-using MonsterTrainer;
+
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,9 +15,9 @@ public enum TimedBoxV3SlotStatus
 [System.Serializable]
 public class TimedBoxV3SlotData
 {
+    public TimeBoxDefine boxType;
     public TimedBoxV3SlotStatus status;
-    public ItemInfo.ItemID timedBoxV3;
-    public IMountInfo.MountType mountType;
+    public int customData;
 
     public System.DateTime endTime;
     public bool isHatchDeferred;
@@ -32,7 +30,7 @@ public class TimedBoxV3SlotData
     {
         set
         {
-            endTime = DateTimeHelper.Instance.GetTimeNow().AddSeconds(value);
+            endTime = System.DateTime.Now.AddSeconds(value);
         }
     }
 
@@ -41,8 +39,6 @@ public class TimedBoxV3SlotData
         timeLeft = 0;
         status = TimedBoxV3SlotStatus.Empty;
         isHatchDeferred = false;
-        mountType = IMountInfo.MountType.None;
-        EventSystemServiceStatic.DispatchAll(GameConstant.OnOpenTimeBox);
     }
 }
 
@@ -75,7 +71,7 @@ public class TimedBoxV3StoreData
     public TimedBoxV3SlotData slot7;
     public TimedBoxV3SlotData slot8;
 
-    public ObscuredInt numSkipTimeToday;
+    public int numSkipTimeToday;
     public List<string> ExtraOpenerSources = new List<string>();
 
     public TimedBoxV3StoreData()
@@ -104,18 +100,6 @@ public class TimedBoxV3StoreData
         }
     }
 
-    public List<EggSlotData> oldSlots
-    {
-        get
-        {
-            if (_oldSlots == null)
-            {
-                _oldSlots = new List<EggSlotData>();
-            }
-            return _oldSlots;
-        }
-    }
-    
     public List<TimedBoxV3SlotData> slots
     {
         get
@@ -130,9 +114,6 @@ public class TimedBoxV3StoreData
     }
 
     [System.NonSerialized] List<TimedBoxV3SlotData> _slots;
-    
-    [SerializeField]
-    private List<EggSlotData> _oldSlots;
 
     public bool canHatchEgg => HasDeferredHatchReadyToStart();
 
@@ -167,19 +148,6 @@ public class TimedBoxV3StoreData
         return false;
     }
 
-    public int GetIndexOldTimedBox()
-    {
-        for (int i = 0; i < oldSlots.Count; i++)
-        {
-            if (oldSlots[i].status != EggStatus.Empty)
-            {
-                return i;
-            }
-        }
-
-        return -1;
-    }
-
     public int numberOfEgg => MAX_SLOT - numberOfEmptySlot;
 
     public int numberOfTimedBoxInActiveSlots
@@ -202,18 +170,7 @@ public class TimedBoxV3StoreData
 
     public bool IsActiveSlotsFull => numberOfTimedBoxInActiveSlots >= maxNumberOfHatchingEgg;
 
-    private static bool ShouldDeferHatchTimerForEgg(ItemInfo.ItemID eggId)
-    {
-        if (eggId != ItemInfo.ItemID.timedBoxTutorial)
-        {
-            return false;
-        }
-
-        var playerData = DataManager.Instance?.playerData;
-        return playerData != null && !playerData.playedTutorialUnlockTimedBoxWorldMap;
-    }
-
-    public void AddEgg(ItemInfo.ItemID eggId, IMountInfo.MountType mountType = IMountInfo.MountType.None)
+    public void AddEgg(TimeBoxDefine boxType, float hatchTime, bool isDeferred, int customData = 0)
     {
         if (!canAddEgg)
         {
@@ -225,41 +182,17 @@ public class TimedBoxV3StoreData
         {
             if (slots[i].status == TimedBoxV3SlotStatus.Empty)
             {
-                slots[i].timedBoxV3 = eggId;
-                slots[i].mountType = mountType;
+                slots[i].boxType = boxType;
+                slots[i].customData = customData;
                 slots[i].status = TimedBoxV3SlotStatus.Hatching;
-                if (ShouldDeferHatchTimerForEgg(eggId))
+                slots[i].isHatchDeferred = isDeferred;
+                
+                if (!isDeferred)
                 {
-                    slots[i].isHatchDeferred = true;
+                    slots[i].endTime = System.DateTime.Now.AddSeconds(hatchTime);
                 }
-                else
-                {
-                    slots[i].isHatchDeferred = false;
-                    slots[i].endTime = DateTimeHelper.Instance.GetTimeNow()
-                        .AddSeconds(((EggInfo)DOListItem.Instance.GetItemInfo(slots[i].timedBoxV3)).hatchTime);
-                }
-
-                EventSystemServiceStatic.DispatchAll(GameConstant.OnOpenTimeBox);
                 break;
             }
-        }
-    }
-
-    public void StartDeferredTutorialTimedBoxHatching()
-    {
-        bool anyStarted = false;
-        for (int i = 0; i < slots.Count; i++)
-        {
-            if (slots[i].IsDeferredHatch && slots[i].timedBoxV3 == ItemInfo.ItemID.timedBoxTutorial)
-            {
-                StartActiveHatching(i);
-                anyStarted = true;
-            }
-        }
-
-        if (anyStarted)
-        {
-            DataManager.Save();
         }
     }
 
@@ -325,10 +258,10 @@ public class TimedBoxV3StoreData
         {
             if (x != null && x.IsActiveHatching)
             {
-                if ((DateTimeHelper.Instance.GetTimeNow() - x.endTime).TotalSeconds > 0)
+                if ((System.DateTime.Now - x.endTime).TotalSeconds > 0)
                 {
                     x.status = TimedBoxV3SlotStatus.Hatched;
-                    EventSystemServiceStatic.DispatchAll(GameConstant.OnOpenTimeBox);
+
                 }
             }
         });
@@ -352,7 +285,7 @@ public class TimedBoxV3StoreData
         return false;
     }
 
-    public void StartActiveHatching(int index)
+    public void StartActiveHatching(int index, int hatchTime)
     {
         if (index < 0 || index >= slots.Count)
         {
@@ -366,135 +299,15 @@ public class TimedBoxV3StoreData
         }
 
         slot.isHatchDeferred = false;
-        slot.endTime = DateTimeHelper.Instance.GetTimeNow()
-            .AddSeconds(((EggInfo)DOListItem.Instance.GetItemInfo(slot.timedBoxV3)).hatchTime);
-        EventSystemServiceStatic.DispatchAll(GameConstant.OnOpenTimeBox);
+        slot.endTime = System.DateTime.Now.AddSeconds(hatchTime);
+
     }
 
-    public void HatchEgg(int index)
+    public void HatchEgg(int index, int hatchTime)
     {
-        StartActiveHatching(index);
+        StartActiveHatching(index, hatchTime);
 
-        TimedBoxV3SlotData slot = slots[index];
-        EventBus<EventOpenTimeBox>.Publish(new EventOpenTimeBox()
-        {
-            eggType = slot.timedBoxV3
-        });
-    }
 
-    public void CheckAndFixDateTimeBug()
-    {
-        slots.ForEach(slot =>
-        {
-            if (slot.IsActiveHatching)
-            {
-                if ((slot.endTime - DateTimeHelper.Instance.GetTimeNow()).TotalSeconds > ((EggInfo)DOListItem.Instance.GetItemInfo(slot.timedBoxV3)).hatchTime)
-                {
-                    slot.endTime = DateTimeHelper.Instance.GetTimeNow().AddSeconds(((EggInfo)DOListItem.Instance.GetItemInfo(slot.timedBoxV3)).hatchTime);
-                }
-            }
-        });
-    }
-
-    public void MigrateLegacyIAPUnlocks(EggStoreData legacy)
-    {
-        ForceClaimOldTimedBox();
-        
-        if (legacy?.ExtraOpenerSources == null || legacy.ExtraOpenerSources.Count == 0)
-        {
-            return;
-        }
-
-        var legacyIAPSources = new[]
-        {
-            ESOURCE_INCREASE_SLOT.IAP_01,
-            ESOURCE_INCREASE_SLOT.IAP_02,
-            ESOURCE_INCREASE_SLOT.IAP_03,
-        };
-
-        foreach (var source in legacyIAPSources)
-        {
-            if (legacy.ExtraOpenerSources.Contains(source.ToString()))
-            {
-                UnlockIAPSourceFromIAP(source);
-            }
-        }
-    }
-
-    private void ForceClaimOldTimedBox()
-    {
-        var eggData = DataManager.Instance.inventoryData.eggStoreData;
-        
-        for (var i = 0; i < eggData.slots.Count; i++)
-        {
-            var slot = new EggSlotData()
-            {
-                status = eggData.slots[i].status,
-                egg = eggData.slots[i].egg,
-            };
-            
-            if (slot.status != EggStatus.Empty)
-            {
-                oldSlots.Add(slot);
-            }
-            eggData.slots[i].ResetData();
-        }
-    }
-
-    public void ValidateData()
-    {
-        if (slot1 == null) slot1 = new TimedBoxV3SlotData();
-        if (slot2 == null) slot2 = new TimedBoxV3SlotData();
-        if (slot3 == null) slot3 = new TimedBoxV3SlotData();
-        if (slot4 == null) slot4 = new TimedBoxV3SlotData();
-        if (slot5 == null) slot5 = new TimedBoxV3SlotData();
-        if (slot6 == null) slot6 = new TimedBoxV3SlotData();
-        if (slot7 == null) slot7 = new TimedBoxV3SlotData();
-        if (slot8 == null) slot8 = new TimedBoxV3SlotData();
-
-        if (ExtraOpenerSources == null)
-        {
-            ExtraOpenerSources = new List<string>();
-        }
-
-        ReCalculateHatchTime();
-
-        var allSlot = new List<TimedBoxV3SlotData>()
-        {
-            slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8,
-        };
-
-        const int legacyNewEggStatus = 1;
-
-        foreach (var slot in allSlot)
-        {
-            if (slot == null)
-            {
-                continue;
-            }
-
-            if ((int)slot.status == legacyNewEggStatus)
-            {
-                slot.status = TimedBoxV3SlotStatus.Hatching;
-                slot.isHatchDeferred = ShouldDeferHatchTimerForEgg(slot.timedBoxV3);
-                if (!slot.isHatchDeferred)
-                {
-                    var eggInfo = DOListItem.Instance.GetItemInfo(slot.timedBoxV3) as EggInfo;
-                    if (eggInfo != null)
-                    {
-                        slot.endTime = DateTimeHelper.Instance.GetTimeNow().AddSeconds(eggInfo.hatchTime);
-                    }
-                }
-            }
-
-            if (slot.status != TimedBoxV3SlotStatus.Empty)
-            {
-                if (!ItemInfo.IsItemTimeEggChest(slot.timedBoxV3))
-                {
-                    slot.timedBoxV3 = ItemInfo.ItemID.timedBoxCommon;
-                }
-            }
-        }
     }
 
     public bool IsActiveExtraSource(ESOURCE_INCREASE_SLOT source)

@@ -52,7 +52,7 @@ public class TimedBoxV3ProgressionRemoteBox
                     System.Globalization.CultureInfo.InvariantCulture, out float amountF)) continue;
                 amount = itemId == 0 ? (int)(amountF * 1000f) : (int)amountF;
             }
-            detail.rewards.Add(new RewardDetail { itemID = (ItemInfo.ItemID)itemId, amount = amount });
+            detail.rewards.Add(new RewardDetail { itemID = itemId, amount = amount });
         }
         return detail;
     }

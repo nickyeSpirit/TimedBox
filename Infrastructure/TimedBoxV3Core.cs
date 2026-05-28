@@ -13,11 +13,14 @@ public static class TimedBoxV3Core
         {
             if (_instance == null)
             {
-                var config = GameInformation.instance.TimedBoxV3SO;
-                var storage = new UnityStorage();
-                _instance = TimedBoxModuleFactory.Create(config, storage);
+                UnityEngine.Debug.LogError("TimedBoxV3Core is not initialized! Call Init() first.");
             }
             return _instance;
         }
+    }
+
+    public static void Init(TimedBoxModuleBundle bundle)
+    {
+        _instance = bundle;
     }
 }

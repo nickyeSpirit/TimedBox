@@ -29,7 +29,7 @@ public class DictionaryTimedBoxV3Progression : TimedBoxV3SerializedDictionary<in
 
 
 [Serializable]
-public class DictionaryTimedBoxV3RewardSO : TimedBoxV3SerializedDictionary<TimeBoxDefine, UnityEngine.ScriptableObject> { }
+public class DictionaryTimedBoxV3RewardSO : TimedBoxV3SerializedDictionary<TimeBoxDefine, TimeBoxV3RewardSO> { }
 
 [Serializable]
 public class DictionaryMonsterTimedBoxWeight : TimedBoxV3SerializedDictionary<MonsterTimeBoxType, float> { }

@@ -4,22 +4,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class TimeBoxV3PoolRewardData<TRewardData, TWeightData> where TWeightData : ITimedBoxWeightable<TRewardData>
+public class TimeBoxV3PoolRewardData
 {
     [ListDrawerSettings(ShowIndexLabels = true)]
-    public List<TWeightData> rewards;
+    public List<TimeBoxModuleWeightData> rewards;
     
     public float percentPriority;
 
-    public TWeightData RandomizeReward(System.Random randomizer = null)
+    public TimeBoxModuleWeightData RandomizeReward(System.Random randomizer = null)
     {
         if (rewards == null || rewards.Count == 0) return default;
         
-        TWeightData selectedItem = default;
+        TimeBoxModuleWeightData selectedItem = default;
         float totalWeight = GetTotalWeight();
         
         float random = randomizer != null ? randomizer.Next(0, (int)totalWeight) : UnityEngine.Random.Range(0, totalWeight);
-        foreach (TWeightData item in rewards)
+        foreach (var item in rewards)
         {
             random -= item.GetWeight();
             if (random <= 0)
@@ -43,16 +43,13 @@ public class TimeBoxV3PoolRewardData<TRewardData, TWeightData> where TWeightData
     }
 }
 
-[Serializable]
-public class TimeBoxPoolV3RewardData : TimeBoxV3PoolRewardData<MonsterTrainer.WSRewardData, AtlantisRewardTimeBoxV3WeightData> {}
-
-public abstract class TimeBoxV3RewardSOBase<TRewardData, TWeightData> : ScriptableObject 
-    where TWeightData : ITimedBoxWeightable<TRewardData>
+[CreateAssetMenu(fileName = "TimeBoxV3RewardSO", menuName = "TimedBoxV3/TimeBoxV3RewardSO")]
+public class TimeBoxV3RewardSO : ScriptableObject 
 {
     public TimeBoxDefine boxType;
 
     public List<string> poolName;
 
     [ListDrawerSettings(ShowIndexLabels = true)]
-    public List<TimeBoxV3PoolRewardData<TRewardData, TWeightData>> pool;
+    public List<TimeBoxV3PoolRewardData> pool;
 }

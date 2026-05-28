@@ -1,30 +1,27 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public class TimedBoxRewardService<TRewardData, TWeightData> : ITimedBoxRewardService<TRewardData, TWeightData> 
-    where TWeightData : ITimedBoxWeightable<TRewardData>
+public class TimedBoxRewardService : ITimedBoxRewardService 
 {
     private readonly TimedBoxV3ConfigSO _config;
-    private readonly ITimedBoxRewardProcessor<TRewardData> _processor;
 
-    public TimedBoxRewardService(TimedBoxV3ConfigSO config, ITimedBoxRewardProcessor<TRewardData> processor)
+    public TimedBoxRewardService(TimedBoxV3ConfigSO config)
     {
         _config = config;
-        _processor = processor;
     }
 
-    public List<TimeBoxV3PoolRewardData<TRewardData, TWeightData>> GetResolvedPools(long seed, TimeBoxDefine type)
+    public List<TimeBoxV3PoolRewardData> GetResolvedPools(long seed, TimeBoxDefine type)
     {
         var rewardInfoSO = _config.GetTimedBoxV3Reward(type);
-        if (rewardInfoSO == null) return new List<TimeBoxV3PoolRewardData<TRewardData, TWeightData>>();
+        if (rewardInfoSO == null) return new List<TimeBoxV3PoolRewardData>();
         
-        var rewardInfo = rewardInfoSO as TimeBoxV3RewardSOBase<TRewardData, TWeightData>;
-        if (rewardInfo == null || rewardInfo.pool == null) return new List<TimeBoxV3PoolRewardData<TRewardData, TWeightData>>();
+        var rewardInfo = rewardInfoSO as TimeBoxV3RewardSO;
+        if (rewardInfo == null || rewardInfo.pool == null) return new List<TimeBoxV3PoolRewardData>();
 
         var priorityRandomizer = new System.Random((int)(seed & 0x7FFFFFFF));
         
-        List<TimeBoxV3PoolRewardData<TRewardData, TWeightData>> resolvedPools = new List<TimeBoxV3PoolRewardData<TRewardData, TWeightData>>();
-        List<TimeBoxV3PoolRewardData<TRewardData, TWeightData>> priorityRewardList = new List<TimeBoxV3PoolRewardData<TRewardData, TWeightData>>();
+        List<TimeBoxV3PoolRewardData> resolvedPools = new List<TimeBoxV3PoolRewardData>();
+        List<TimeBoxV3PoolRewardData> priorityRewardList = new List<TimeBoxV3PoolRewardData>();
 
         foreach (var p in rewardInfo.pool)
         {
@@ -40,7 +37,7 @@ public class TimedBoxRewardService<TRewardData, TWeightData> : ITimedBoxRewardSe
             foreach (var p in priorityRewardList) totalPriority += p.percentPriority;
             float rand = (float)priorityRandomizer.NextDouble() * totalPriority;
 
-            TimeBoxV3PoolRewardData<TRewardData, TWeightData> selected = null;
+            TimeBoxV3PoolRewardData selected = null;
             foreach (var p in priorityRewardList)
             {
                 rand -= p.percentPriority;
@@ -58,32 +55,44 @@ public class TimedBoxRewardService<TRewardData, TWeightData> : ITimedBoxRewardSe
         return resolvedPools;
     }
 
-    public List<TRewardData> ClaimRewards(long seed, TimeBoxDefine type)
+    public List<TimeBoxModuleRewardData> ClaimRewards(long seed, TimeBoxDefine type, int playerLevel)
     {
         var rewardInfoSO = _config.GetTimedBoxV3Reward(type);
-        if (rewardInfoSO == null) return new List<TRewardData>();
+        if (rewardInfoSO == null) return new List<TimeBoxModuleRewardData>();
         
-        var rewardInfo = rewardInfoSO as TimeBoxV3RewardSOBase<TRewardData, TWeightData>;
-        if (rewardInfo == null || rewardInfo.pool == null) return new List<TRewardData>();
+        var rewardInfo = rewardInfoSO as TimeBoxV3RewardSO;
+        if (rewardInfo == null || rewardInfo.pool == null) return new List<TimeBoxModuleRewardData>();
 
         var randomizer = new System.Random();
-        List<TRewardData> listRewardsFinal = new List<TRewardData>();
+        List<TimeBoxModuleRewardData> listRewardsFinal = new List<TimeBoxModuleRewardData>();
         var resolvedPools = GetResolvedPools(seed, type);
 
         foreach (var p in resolvedPools)
         {
             var rw = p.RandomizeReward(randomizer);
-            if (rw != null)
+            if (rw != null && rw.reward != null)
             {
-                listRewardsFinal.Add(rw.GetCurrentReward());
+                listRewardsFinal.Add(rw.reward);
             }
         }
 
-        if (_processor != null)
+        // Merge progression
+        var progressionDetail = GetProgressionRewards(playerLevel, type);
+        if (progressionDetail != null && progressionDetail.rewards != null)
         {
-            _processor.MergeProgressionRewards(listRewardsFinal, type);
-            listRewardsFinal = _processor.SortRewards(listRewardsFinal);
+            foreach (var r in progressionDetail.rewards)
+            {
+                foreach (var rFinal in listRewardsFinal)
+                {
+                    if (rFinal.item != null && rFinal.item.infoId == r.itemID)
+                    {
+                        rFinal.item.quantity = r.amount;
+                    }
+                }
+            }
         }
+
+        listRewardsFinal = SortRewards(listRewardsFinal);
 
         return listRewardsFinal;
     }
@@ -91,5 +100,28 @@ public class TimedBoxRewardService<TRewardData, TWeightData> : ITimedBoxRewardSe
     public TimedBoxV3ProgressionDetail GetProgressionRewards(int playerLevel, TimeBoxDefine type)
     {
         return TimedBoxV3Helper.GetTimedBoxV3ProgressionDetail(playerLevel, type, _config);
+    }
+
+    private List<TimeBoxModuleRewardData> SortRewards(List<TimeBoxModuleRewardData> rewards)
+    {
+        rewards.Sort((a, b) =>
+        {
+            return GetRewardSortOrder(a) - GetRewardSortOrder(b);
+        });
+        return rewards;
+    }
+
+    private int GetRewardSortOrder(TimeBoxModuleRewardData reward)
+    {
+        if (reward?.item == null) return 99;
+        var id = reward.item.infoId;
+
+        if (id == 21) return 0; // gold
+        if (id >= 198 && id <= 202) return 1; // Random equipment 1-5 star
+        if (id >= 203 && id <= 207) return 2; // Random drone 1-5 star
+        if (id >= 346 && id <= 348) return 2; // Random drone shard 3-5
+        if (id >= 342 && id <= 344) return 3; // Random ship shard
+
+        return 4;
     }
 }

@@ -4,9 +4,9 @@ using System.Collections.Generic;
 /// [Domain Layer] - TimedBoxV3.Module
 /// Đóng gói 100% toàn bộ logic Random/Claim quà của TimedBox.
 /// </summary>
-public interface ITimedBoxRewardService<TRewardData, TWeightData> where TWeightData : ITimedBoxWeightable<TRewardData>
+public interface ITimedBoxRewardService
 {
-    List<TimeBoxV3PoolRewardData<TRewardData, TWeightData>> GetResolvedPools(long seed, TimeBoxDefine type);
-    List<TRewardData> ClaimRewards(long seed, TimeBoxDefine type);
+    List<TimeBoxV3PoolRewardData> GetResolvedPools(long seed, TimeBoxDefine type);
+    List<TimeBoxModuleRewardData> ClaimRewards(long seed, TimeBoxDefine type, int playerLevel);
     TimedBoxV3ProgressionDetail GetProgressionRewards(int playerLevel, TimeBoxDefine type);
 }

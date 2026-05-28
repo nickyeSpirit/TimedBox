@@ -1,115 +1,76 @@
-# 📦 Tài liệu Kỹ thuật: TimedBoxV3 Module
+# Timed Box V3 - Technical Documentation
 
-## 1. Tổng quan (Overview)
+Tài liệu kỹ thuật giải thích chi tiết cấu trúc, luồng hoạt động, và cách sử dụng của Module `TimedBoxV3` sau quá trình tái cấu trúc toàn diện (Refactoring) dựa trên nguyên tắc Clean Architecture.
 
-### 🌟 1.1. Tính năng "Rương Tính Giờ" (Timed Box) là gì?
-"Rương Tính Giờ" là một hệ thống phần thưởng cốt lõi trong game, cung cấp cho người chơi các hòm đồ (rương) có thời gian ấp (hatching time). 
-- **Cách nhận rương:** Người chơi nhận được rương thông qua việc vượt ải (Drop rate theo Story Stage) hoặc nhận qua các sự kiện, Gacha.
-- **Tiến trình mở rương:** Mỗi rương yêu cầu một khoảng thời gian chờ (countdown) để mở. Người chơi có thể dùng tài nguyên (gem/vé) để mở ngay lập tức.
-- **Phần thưởng cung cấp:** Rương cung cấp 2 loại phần thưởng khi mở:
-  1. **Progression Rewards (Quà cố định):** Những phần thưởng đảm bảo nhận được, scale theo cấp độ hiện tại của người chơi (Player Level).
-  2. **Pool Rewards (Quà ngẫu nhiên):** Các vật phẩm xóc đĩa ngẫu nhiên theo trọng số (weight) từ một tập hợp các pool quà (ví dụ: Mảnh tàu, Vàng, Kim cương).
+## 1. Tổng quan Kiến trúc (Architecture)
 
-### 🎯 1.2. Mục tiêu Kỹ thuật của `TimedBoxV3.Module`
-`TimedBoxV3.Module` là một khối chức năng (module) độc lập chịu trách nhiệm quản lý toàn bộ vòng đời của hệ thống Timed Box nói trên. 
+Module `TimedBoxV3.Module` được thiết kế hoàn toàn độc lập, tách biệt 100% khỏi các logic của Game Layer (chẳng hạn như `ItemInfo.ItemID`, `DataManager`, `MonsterTrainer`...). Module đi theo nguyên lý Clean Architecture, chia thành các Layer chính:
 
-**Mục tiêu cốt lõi:**
-- **Plug and Play:** Dễ dàng tích hợp vào các dự án khác có chung Code Base (dùng chung `ItemInfo.ItemID`).
-- **Encapsulation:** Đóng gói 100% bộ quy tắc random (xóc đĩa) bên trong module. Các dự án đích không cần (và không được phép) tự viết lại logic random phần thưởng.
-- **Decoupling:** Tách biệt hoàn toàn phần Logic/Data ra khỏi UI (Presentation). UI chỉ làm nhiệm vụ hiển thị và lắng nghe event từ core logic.
+- **Entity**: Các cấu trúc dữ liệu nguyên thủy, các enum nội bộ của module (ví dụ: `TimeBoxDefine`, `TimedBoxV3SlotStatus`, `TimeBoxModuleRewardData`).
+- **Domain**: Các interface (hợp đồng) định nghĩa nghiệp vụ của module (`ITimedBoxRepository`, `ITimedBoxIdMapper`, `ITimedBoxProgressionMapper`, `ITimedBoxRewardService`).
+- **Infrastructure**: Các logic thực thi chi tiết, bao gồm Repository đọc ghi file (`TimedBoxRepository`, `UnityStorage`), các service như `TimedBoxRewardService`, và Controller tổng (`TimedBoxV3FeatureController`).
 
----
+## 2. Entry Point & Cấu hình khởi tạo
 
-## 2. Kiến trúc (Architecture)
-Module được thiết kế theo tư tưởng **Clean Architecture** pha trộn với tính thực dụng (Pragmatic), bao gồm 4 layer chính:
+**Composition Root (Nơi lắp ráp module)**: `TimedBoxModuleFactory`
+Nơi lắp ráp và kết nối tất cả các dependencies lại với nhau để tạo thành một khối hoàn chỉnh (`TimedBoxModuleBundle`).
 
-### 🎯 2.1. Domain Layer (Interfaces cốt lõi)
-Nơi định nghĩa các "hợp đồng" giao tiếp, hoàn toàn không phụ thuộc vào các thư viện bên ngoài hay UI.
-- `ITimedBoxRepository`: Interface quản lý việc đọc/ghi dữ liệu trạng thái các rương đang ấp (`EggStoreDataV3`).
-- `ITimedBoxRewardService`: Interface quan trọng nhất, chứa API để lấy danh sách quà hiển thị trên Info (đã resolve) và API xóc đĩa khi Claim rương.
-- `ITimedBoxV3Feature`: Interface quản lý logic Gameplay (cooldown rớt rương, map đang đứng, v.v.).
+**Khởi tạo (Initialization)**:
+Module được khởi tạo **duy nhất một lần** trong hàm `Init()` của `DataManager.cs`. Quá trình khởi tạo diễn ra như sau:
 
-### 🧱 2.2. Entity Layer (Data & Cấu hình)
-Nơi chứa cấu trúc dữ liệu thuần túy và các Scriptable Object (SO) cấu hình.
-- `EggStoreDataV3.cs`: Data model lưu trạng thái các slot rương hiện tại của người chơi.
-- `TimedBoxV3ConfigSO.cs`: Cấu hình toàn bộ phần thưởng (Reward Pools) và quà tặng cố định (Progression).
-
-### ⚙️ 2.3. Infrastructure Layer (Triển khai Logic)
-Nơi "thực thi" các interface ở tầng Domain. Tầng này sẽ tương tác với hệ thống chung của game (PlayerPrefs, IStorage, System.Random).
-- `TimedBoxRepository.cs`: Xử lý load/save dữ liệu rương.
-- `TimedBoxRewardService.cs`: Chứa logic xóc đĩa Deterministic (dùng seed) đảm bảo quà hiển thị trên Info UI khớp 100% với quà nhận được lúc Claim.
-- **`TimedBoxModuleFactory.cs` (Composition Root):** Nơi duy nhất khởi tạo và bơm (inject) tất cả các dependencies lại với nhau.
-
-### 🎨 2.4. Presentation Layer (Giao diện) - *Tùy chọn*
-Phần UI được tách biệt hoàn toàn. Khi mang sang project mới, có thể dùng lại các prefab UI cũ hoặc tự xây UI mới chỉ bằng cách gọi vào tầng Domain. Dưới đây là các script UI chính đang liên kết với module:
-- **`UIPanelDroneBoxV3.cs`**: Quản lý hiển thị tổng quan các rương đang ấp trên màn hình Home (hiển thị thời gian countdown, trạng thái sẵn sàng mở).
-- **`TimedBoxSlotViewV3.cs`**: Quản lý trạng thái chi tiết của từng slot rương (đang rảnh, đang ấp, đang chờ mở).
-- **`EggDetailControllerV3.cs`**: Màn hình xem trước (Preview/Info) thông tin rương. Lắng nghe `RewardService.GetResolvedPools()` để hiển thị danh sách pool quà có thể nhận được từ rương mà chưa cần mở.
-- **`EggRewardUiController.cs`**: Màn hình chúc mừng khi người chơi chính thức mở rương (Claim).
-- **`TimeboxPoolRowItem.cs`**: Component tái sử dụng (legacy) để hiển thị chi tiết của một pool quà trên giao diện (ảnh icon, số lượng, v.v.).
-- ** IconTimedBoxHolderView.cs**: Quản lý hiển thị icon ở ngoài story map
----
-
-## 3. Quy trình Tích hợp (Integration Guide)
-
-> [!IMPORTANT]
-> **Dependency bắt buộc:** Module yêu cầu project đích phải có sẵn các class: `ItemInfo.ItemID` và cấu trúc `WSRewardData`.
-
-Để tích hợp module vào một dự án mới, thực hiện các bước sau:
-
-**Bước 1: Khởi tạo Module (Lúc Boot Game)**
-Sử dụng `TimedBoxModuleFactory` để khởi tạo toàn bộ hệ thống 1 lần duy nhất:
 ```csharp
-// configSO là Scriptable Object TimedBoxV3ConfigSO
-// storage là implementation của IStorage (ví dụ: UnityStorage wrapper cho PlayerPrefs)
-TimedBoxModuleBundle timedBoxModule = TimedBoxModuleFactory.Create(configSO, storage);
+private static void InitTimedBoxV3Module()
+{
+    // Lấy ScriptableObject chứa config
+    var config = GameInformation.instance.TimedBoxV3SO;
+    // Khởi tạo UnityStorage (bọc PlayerPrefs/JSON)
+    var storage = new UnityStorage();
+    // Khởi tạo Mapper để module có thể giao tiếp với Game Layer một cách lỏng lẻo (loosely coupled)
+    var mapper = new AtlantisTimedBoxProgressionMapper();
+    
+    // Gắn kết tất cả lại bằng Factory
+    var bundle = TimedBoxModuleFactory.Create(config, storage, mapper, mapper);
+    
+    // Lưu trữ Singleton cho toàn game
+    TimedBoxV3Core.Init(bundle);
+}
 ```
 
-**Bước 2: Sử dụng các API của Module**
-Sau khi có `timedBoxModule`, bạn có thể inject các service vào nơi cần thiết:
+**API Giao tiếp chính (Entry Point cho UI/Game Layer)**:
+Thay vì gọi các service một cách lộn xộn, Game Layer tương tác trực tiếp với module thông qua `TimedBoxV3Core.Instance`.
+- Tương tác với dữ liệu (Save/Load): `TimedBoxV3Core.Instance.Repository.GetStoreData()`
+- Gọi các tính năng (Mở hộp, Check Slot, v.v.): `TimedBoxV3Core.Instance.Feature`
 
-*Để kiểm tra rớt rương sau khi qua màn:*
-```csharp
-// Trả về data rương nếu rớt, hoặc null nếu chưa đến giờ (cooldown)
-var droppedBox = timedBoxModule.Feature.GetReceiveTimedBoxData(gameMode);
-```
+## 3. Luồng Quản lý Dữ liệu (Data Flow)
 
-*Để hiển thị Info phần thưởng rương trên UI:*
-```csharp
-// Lấy danh sách pool đã được resolve các điều kiện (percentPriority)
-// Dùng seed là thời điểm hoàn thành ấp rương (endTime.Ticks) để cố định kết quả
-var infoPools = timedBoxModule.RewardService.GetResolvedPools(seed, boxType);
-```
+Trước đây, `TimedBoxV3StoreData` nằm trực tiếp trong `InventoryData`. Điều này gây ra sự phụ thuộc chặt chẽ và không thể tách rời module.
+Hiện tại, **Module tự quản lý dữ liệu của chính mình**:
 
-*Để mở rương (Claim):*
-```csharp
-// Xóc đĩa phần thưởng. Module tự lo logic. Game đích chỉ việc nhận List<WSRewardData> và add vào Inventory.
-List<WSRewardData> rewards = timedBoxModule.RewardService.ClaimRewards(seed, boxType);
-InventorySystem.AddRewards(rewards);
-```
+- Dữ liệu `TimedBoxV3StoreData` được nạp lên thông qua `TimedBoxV3Core.Instance.Repository.GetStoreData()`.
+- Khi có bất kỳ thay đổi nào (thêm trứng, mở khoá slot, thay đổi trạng thái), Game Layer phải gọi hàm lưu lại dữ liệu:
+  `TimedBoxV3Core.Instance.Repository.SaveStoreData(v3Store);`
 
----
+## 4. Luồng xử lý Phần thưởng (Reward Flow)
 
-## 4. Giải thích Core Logic (Design Decisions)
+Quá trình "Hatching" (mở rương) và sinh ra phần thưởng đã được chuyển hoàn toàn vào trong module:
 
-### 4.1. Vấn đề "Deterministic Random" (Info & Claim)
-Hệ thống cũ gặp lỗi: Bấm vào xem Info thì hiển thị pool quà đã loại trừ `percentPriority`, nhưng lúc Claim thật thì lại random khác. 
-**Cách giải quyết:** `TimedBoxRewardService` sử dụng chung 1 hạt giống ngẫu nhiên (`seed` dựa trên Ticks thời gian) cho cả 2 hàm `GetResolvedPools` và `ClaimRewards`. Nhờ đó, danh sách pool hiển thị ở Info UI sẽ **khớp 100%** với danh sách pool được mang đi random lúc Claim.
+1. **Randomize**: Lấy `pool_id` từ `TimedBoxV3ConfigSO` dựa theo loại rương (Common, Epic...). Random ra danh sách `infoId` (int) nguyên thủy.
+2. **Merge Progression**: Trong `TimedBoxRewardService`, module gọi `ProgressionMapper` (do Game Layer implement) để lấy Player Level. Sau đó, nó đối chiếu với bảng `timedBoxV3Progression` trong `TimedBoxV3ConfigSO` để chèn thêm số lượng (quantity) cho các item tương ứng (như Gold, Shard).
+3. **Sort Rewards**: Module tự động phân tích các `infoId` dựa theo khoảng giá trị (ví dụ: Gold = 21, Random Equipment = 198..202) để sắp xếp thứ tự các vật phẩm hiển thị cho người chơi.
 
-### 4.2. Data Mapper Pattern
-Để Module không bị kẹt cứng (hard-coupled) vào logic lấy Cấp độ (Level) hay Map của game đích, Module sử dụng giao thức `ITimedBoxProgressionMapper`. 
-Khi cắm vào game, game sẽ tự implement mapper này (ví dụ: `AtlantisTimedBoxProgressionMapper`) để "dịch" cấp độ người chơi và nhét vào Module.
+Tất cả các logic này đều nằm trong `TimedBoxRewardService.cs` và **không cần** bất kỳ processor dư thừa nào ở bên ngoài Game Layer. (Đã xoá sổ `ITimedBoxRewardProcessor` và `AtlantisTimedBoxRewardProcessor`).
 
----
+## 5. Tương thích và Chuyển đổi (Backward Compatibility)
 
-## 5. Cấu trúc Thư mục 
+Do đã ngắt dữ liệu ra khỏi `InventoryData`, khi người dùng cũ đăng nhập, module vẫn đảm bảo an toàn thông qua lớp `AtlantisTimedBoxMigrationHelper`.
 
-Khi copy sang project mới, chỉ cần bê nguyên thư mục `TimedBoxV3.Module`:
-```text
-TimedBoxV3.Module/
-├── Domain/           # Interfaces (ITimedBoxRepository, ITimedBoxRewardService,...)
-├── Entity/           # Data & Cấu hình (EggStoreDataV3, TimedBoxV3ConfigSO,...)
-├── Infrastructure/   # Logic triển khai (RewardService, Factory, Helper,...)
-├── Presentation/     # (Tùy chọn) Chứa UI Scripts
-└── Extensions/       # (Tùy chọn) Chứa các file UI cho Gacha Banner
-```
+Lớp này sẽ được kích hoạt tại `DataManager.ValidateDataAfterLoading()`, với nhiệm vụ:
+- Kiểm tra các slot mua bằng IAP từ hệ thống cũ.
+- Validate và fix các lỗi liên quan đến `DateTime` của các hộp đang ấp dở dang.
+- Đổ dữ liệu cũ vào kho lưu trữ mới thông qua `TimedBoxV3Core.Instance.Repository`.
+
+## Tóm tắt
+
+- **Độc lập tuyệt đối**: Có thể bê nguyên folder `TimedBoxV3.Module` sang một project Unity khác mà không báo lỗi thiếu class.
+- **Dễ bảo trì**: Phân tách rõ ràng giữa Data (Repository), Logic (Service/Feature), và Config (SO).
+- **Mở rộng dễ dàng**: Khi cần thêm loại phần thưởng mới, chỉ cần khai báo ID bằng số nguyên `int` trong `TimeBoxModuleRewardData` và thiết lập trong bảng Config.

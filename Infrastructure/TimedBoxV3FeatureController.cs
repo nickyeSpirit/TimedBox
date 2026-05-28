@@ -22,14 +22,14 @@ public class TimedBoxV3FeatureController : ITimedBoxV3Feature
         _storage = storage;
     }
 
-    public bool CanDropTimedBox(GameSetting.GamePlayMode gameMode)
+    public bool CanDropTimedBox(bool isEndlessMode)
     {
         if (_nextReadyTime < 0f)
         {
             var strLastTimedClaimedTimedBox = _storage.GetString(TimedBoxV3Constant.LastTimeClaimTimebox);
             _cachedLastClaimTime = TimedBoxV3Helper.ConvertStringToDateTime(strLastTimedClaimedTimedBox);
 
-            var now = DateTimeHelper.Instance.GetTimeNow();
+            var now = DateTime.Now;
             var targetTime = _cachedLastClaimTime.Value.AddSeconds(_config.cooldownTimebox);
             
             float remaining = (float)(targetTime - now).TotalSeconds;
@@ -45,7 +45,7 @@ public class TimedBoxV3FeatureController : ITimedBoxV3Feature
 
         int selectedMap = _mapper.GetCurrentStoryStage();
         var customWeightList = _config.GetCustomTimeboxWeight();
-        if (gameMode == GameSetting.GamePlayMode.Endless)
+        if (isEndlessMode)
         {
             customWeightList = _config.GetCustomTimeboxWeightForLeagueMode();
         }
@@ -73,12 +73,12 @@ public class TimedBoxV3FeatureController : ITimedBoxV3Feature
         return false;
     }
 
-    public TimedBoxV3DTO GetReceiveTimedBoxData(GameSetting.GamePlayMode gameMode)
+    public TimedBoxV3DTO GetReceiveTimedBoxData(bool isEndlessMode)
     {
         int selectedMap = _mapper.GetCurrentStoryStage();
 
         var customWeightList = _config.GetCustomTimeboxWeight();
-        if (gameMode == GameSetting.GamePlayMode.Endless)
+        if (isEndlessMode)
         {
             customWeightList = _config.GetCustomTimeboxWeightForLeagueMode();
         }
@@ -106,7 +106,7 @@ public class TimedBoxV3FeatureController : ITimedBoxV3Feature
                 if (randomed != null && randomed.boxType != TimeBoxDefine.None)
                 {
                     // Save timestamp
-                    var timeStr = DateTimeHelper.Instance.GetTimeNow().ToString(System.Globalization.CultureInfo.InvariantCulture);
+                    var timeStr = DateTime.Now.ToString(System.Globalization.CultureInfo.InvariantCulture);
                     _storage.SetString(TimedBoxV3Constant.LastTimeClaimTimebox, timeStr);
                     _cachedLastClaimTime = TimedBoxV3Helper.ConvertStringToDateTime(timeStr);
                     _nextReadyTime = UnityEngine.Time.time + _config.cooldownTimebox;
@@ -133,7 +133,7 @@ public class TimedBoxV3FeatureController : ITimedBoxV3Feature
         return TimedBoxV3Helper.GetTimedBoxV3ProgressionDetail(level, type, _config);
     }
 
-    public UnityEngine.ScriptableObject GetTimedBoxV3RewardInfo(TimeBoxDefine type)
+    public TimeBoxV3RewardSO GetTimedBoxV3RewardInfo(TimeBoxDefine type)
     {
         if (_config != null && _config.timedBoxV3Reward != null &&
             _config.timedBoxV3Reward.TryGetValue(type, out var rewardInfo))

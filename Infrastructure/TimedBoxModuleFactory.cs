@@ -1,4 +1,4 @@
-using MonsterTrainer;
+
 
 /// <summary>
 /// [Infrastructure Layer] - TimedBoxV3.Module - Entrypoint
@@ -6,19 +6,15 @@ using MonsterTrainer;
 /// </summary>
 public static class TimedBoxModuleFactory
 {
-    public static TimedBoxModuleBundle Create(TimedBoxV3ConfigSO config, IStorage storage)
+    public static TimedBoxModuleBundle Create(TimedBoxV3ConfigSO config, IStorage storage, ITimedBoxRepository repository, TimedBoxV3.Module.Domain.ITimedBoxIdMapper idMapper, ITimedBoxProgressionMapper progressionMapper)
     {
-        var mapper = new AtlantisTimedBoxProgressionMapper();
-        var repository = new TimedBoxRepository();
-        var processor = new AtlantisTimedBoxRewardProcessor(config);
-        var rewardService = new TimedBoxRewardService<WSRewardData, AtlantisRewardTimeBoxV3WeightData>(config, processor);
-        var featureController = new TimedBoxV3FeatureController(mapper, config, storage);
+        var featureController = new TimedBoxV3FeatureController(progressionMapper, config, storage);
 
         return new TimedBoxModuleBundle
         {
             Feature = featureController,
-            RewardService = rewardService,
             Repository = repository,
+            IdMapper = idMapper
         };
     }
 }
@@ -26,6 +22,6 @@ public static class TimedBoxModuleFactory
 public class TimedBoxModuleBundle
 {
     public ITimedBoxV3Feature Feature;
-    public ITimedBoxRewardService<WSRewardData, AtlantisRewardTimeBoxV3WeightData> RewardService;
     public ITimedBoxRepository Repository;
+    public TimedBoxV3.Module.Domain.ITimedBoxIdMapper IdMapper;
 }

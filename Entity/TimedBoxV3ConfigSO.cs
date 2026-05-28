@@ -4,7 +4,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using MonsterTrainer;
+
 using UnityEngine.Serialization;
 using Random = System.Random;
 #if UNITY_EDITOR
@@ -63,30 +63,28 @@ public class TimedBoxV3ConfigSO : ScriptableObject
         return result;
     }
 
-    public void FetchTimedBoxRemoteConfig()
+    public void FetchTimedBoxRemoteConfig(string progressionJson, string customWeightJson)
     {
         try
         {
-            string json = FirebaseInit.GetValueRemoteConfig(FirebaseRemoteConfigKey.kTimedBoxV3Progression, enableCache: true);
-            if (!string.IsNullOrEmpty(json))
+            if (!string.IsNullOrEmpty(progressionJson))
             {
-                _remoteProgression = JsonConvert.DeserializeObject<TimedBoxV3ProgressionRemote>(json);
+                _remoteProgression = JsonConvert.DeserializeObject<TimedBoxV3ProgressionRemote>(progressionJson);
             }
         }
-        catch (Exception e)
+        catch (Exception)
         {
             _remoteProgression = null;
         }
 
         try
         {
-            string jsonWeight = FirebaseInit.GetValueRemoteConfig(FirebaseRemoteConfigKey.kTimedBoxV3CustomWeight, enableCache: true);
-            if (!string.IsNullOrEmpty(jsonWeight))
+            if (!string.IsNullOrEmpty(customWeightJson))
             {
-                _remoteCustomWeightData = JsonConvert.DeserializeObject<TimedBoxV3CustomWeightRemote>(jsonWeight);
+                _remoteCustomWeightData = JsonConvert.DeserializeObject<TimedBoxV3CustomWeightRemote>(customWeightJson);
             }
         }
-        catch (Exception e)
+        catch (Exception)
         {
             _remoteCustomWeightData = null;
         }
@@ -162,7 +160,7 @@ public class TimedBoxV3ConfigSO : ScriptableObject
         }
         return null;
     }
-    public UnityEngine.ScriptableObject GetTimedBoxV3Reward(TimeBoxDefine type) => timedBoxV3Reward.GetValueOrDefault(type);
+    public TimeBoxV3RewardSO GetTimedBoxV3Reward(TimeBoxDefine type) => timedBoxV3Reward.GetValueOrDefault(type);
 
     #endregion
     
