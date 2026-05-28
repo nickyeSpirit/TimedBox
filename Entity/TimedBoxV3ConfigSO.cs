@@ -275,7 +275,7 @@ public class TimedBoxV3ConfigSO : ScriptableObject
                             int.TryParse(parts[1], out int itemId);
                             int.TryParse(parts[2], out int amount);
                             if (itemId == 0) amount *= 1000;
-                            cellRewards.Add(new RewardDetail() { itemID = (ItemInfo.ItemID)itemId, amount = amount });
+                            cellRewards.Add(new RewardDetail() { itemID = itemId, amount = amount });
                         }
                     }
                     else
@@ -285,7 +285,7 @@ public class TimedBoxV3ConfigSO : ScriptableObject
                             int.TryParse(parts[0], out int itemId);
                             int.TryParse(parts[1], out int amount);
                             if (itemId == 0) amount *= 1000;
-                            cellRewards.Add(new RewardDetail() { itemID = (ItemInfo.ItemID)itemId, amount = amount });
+                            cellRewards.Add(new RewardDetail() { itemID = itemId, amount = amount });
                         }
                     }
                 }
